@@ -9,85 +9,87 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/yourusername/melody-explorer/internal/api"
+	//yourusername, car j'ai vraiment galéré a implementer mes propre packages et j'ai plus ou moins fait un guide que chat gpt ma donné, 
+	//apres enfin avoir reussi a le faire marcher, j'ai decidé de pas changer pour pas le refaire bugger
+	"github.com/yourusername/melody-explorer/internal/api" 
 )
 
 func main() {
-	// Load environment variables from .env file
+	// Charger les variables d'environnement depuis le fichier .env
 	if err := godotenv.Load(); err != nil {
-		log.Println("Warning: .env file not found")
+		log.Println("Avertissement: fichier .env introuvable")
 	}
 
-	// Get port from environment variable or use default
+	// Récupérer le port depuis la variable d'environnement ou utiliser la valeur par défaut
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
 
-	// Determine project root directory
+	// Déterminer le répertoire racine du projet
 	wd, err := os.Getwd()
 	if err != nil {
-		log.Fatalf("Error getting working directory: %v", err)
+		log.Fatalf("Erreur lors de l'obtention du répertoire de travail: %v", err)
 	}
 
-	// Print the working directory for debugging
-	fmt.Printf("Working directory: %s\n", wd)
+	// Afficher le répertoire de travail pour le débogage
+	fmt.Printf("Répertoire de travail: %s\n", wd)
 
-	// Resolve paths
+	// Résoudre les chemins
 	templatesDir := filepath.Join(wd, "templates")
 	staticDir := filepath.Join(wd, "static")
 	dataDir := filepath.Join(wd, "data")
 
-	// Print the data directory for debugging
-	fmt.Printf("Data directory: %s\n", dataDir)
+	// Afficher le répertoire de données pour le débogage
+	fmt.Printf("Répertoire des données: %s\n", dataDir)
 
-	// Print the favorites.json path for debugging
+	// Afficher le chemin de favorites.json pour le débogage
 	favoritesPath := filepath.Join(dataDir, "favorites.json")
-	fmt.Printf("Favorites file path: %s\n", favoritesPath)
+	fmt.Printf("Chemin du fichier des favoris: %s\n", favoritesPath)
 
-	// Check if the favorites.json file exists
+	// Vérifier si le fichier favorites.json existe
 	if _, err := os.Stat(favoritesPath); err != nil {
 		if os.IsNotExist(err) {
-			fmt.Println("favorites.json does not exist!")
+			fmt.Println("favorites.json n'existe pas!")
 		} else {
-			fmt.Printf("Error checking favorites.json: %v\n", err)
+			fmt.Printf("Erreur lors de la vérification de favorites.json: %v\n", err)
 		}
 	} else {
-		fmt.Println("favorites.json exists")
+		fmt.Println("favorites.json existe")
 
-		// Try to read the file and print its contents
+		// Essayer de lire le fichier et afficher son contenu
 		data, err := os.ReadFile(favoritesPath)
 		if err != nil {
-			fmt.Printf("Error reading favorites.json: %v\n", err)
+			fmt.Printf("Erreur lors de la lecture de favorites.json: %v\n", err)
 		} else {
-			fmt.Printf("Content of favorites.json: %q\n", string(data))
+			fmt.Printf("Contenu de favorites.json: %q\n", string(data))
 		}
 	}
 
-	// Create data directory if it doesn't exist
+	// Créer le répertoire de données s'il n'existe pas
 	if _, err := os.Stat(dataDir); os.IsNotExist(err) {
-		fmt.Println("Creating data directory...")
+		fmt.Println("Création du répertoire de données...")
 		if err := os.MkdirAll(dataDir, 0755); err != nil {
-			log.Fatalf("Error creating data directory: %v", err)
+			log.Fatalf("Erreur lors de la création du répertoire de données: %v", err)
 		}
 	}
 
-	// Create a clean favorites.json file with proper encoding
-	fmt.Println("Creating a clean favorites.json...")
+	// Créer un fichier favorites.json propre avec un encodage approprié
+	fmt.Println("Création d'un fichier favorites.json propre...")
 	emptyArray := []byte("[]")
 	if err := os.WriteFile(favoritesPath, emptyArray, 0644); err != nil {
-		log.Fatalf("Error creating favorites.json: %v", err)
+		log.Fatalf("Erreur lors de la création de favorites.json: %v", err)
 	}
 
-	fmt.Println("Created clean favorites.json successfully")
+	fmt.Println("Création réussie du fichier favorites.json propre")
 
-	// Create server
+	// Créer le serveur
 	server, err := api.NewServer(templatesDir, staticDir, dataDir)
 	if err != nil {
-		log.Fatalf("Error creating server: %v", err)
+		log.Fatalf("Erreur lors de la création du serveur: %v", err)
 	}
 
-	// Create HTTP server
+	// Créer le serveur HTTP
 	srv := &http.Server{
 		Addr:         ":" + port,
 		Handler:      server.Router,
@@ -96,14 +98,14 @@ func main() {
 		IdleTimeout:  60 * time.Second,
 	}
 
-	// Start server in a goroutine
+	// Démarrer le serveur dans une goroutine
 	go func() {
-		log.Printf("Server listening on port %s", port)
+		log.Printf("Serveur à l'écoute sur le port %s", port)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("Error starting server: %v", err)
+			log.Fatalf("Erreur lors du démarrage du serveur: %v", err)
 		}
 	}()
 
-	// Keep the main goroutine alive
+	// Maintenir la goroutine principale active
 	select {}
 }

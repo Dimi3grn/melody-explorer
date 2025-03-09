@@ -1,0 +1,249 @@
+{{ define "content" }}
+<section class="details-page">
+    <div class="container">
+        {{ if eq .CurrentPage "artist" }}
+        {{ $artist := index .Data "Artist" }}
+        <div class="details-header artist-header">
+            {{ if $artist.Images }}
+            <div class="details-image">
+                <img src="{{ (index $artist.Images 0).URL }}" alt="{{ $artist.Name }}">
+            </div>
+            {{ else }}
+            <div class="details-image placeholder">
+                <i class="fas fa-user"></i>
+            </div>
+            {{ end }}
+            
+            <div class="details-info">
+                <h1>{{ $artist.Name }}</h1>
+                
+                {{ if $artist.Genres }}
+                <div class="genres">
+                    <h3>Genres</h3>
+                    <p>
+                        {{ range $index, $genre := $artist.Genres }}
+                        {{ if gt $index 0 }}, {{ end }}
+                        <a href="/category/{{ $genre }}">{{ $genre }}</a>
+                        {{ end }}
+                    </p>
+                </div>
+                {{ end }}
+                
+                <div class="followers">
+                    <h3>Abonnés</h3>
+                    <p>{{ $artist.Followers.Total }}</p>
+                </div>
+                
+                <div class="popularity">
+                    <h3>Popularité</h3>
+                    <div class="popularity-bar">
+                        <div class="popularity-fill" style="width: {{ $artist.Popularity }}%;"></div>
+                    </div>
+                    <p>{{ $artist.Popularity }}/100</p>
+                </div>
+                
+                <div class="external-links">
+                    {{ if index $artist.ExternalURLs "spotify" }}
+                    <a href="{{ index $artist.ExternalURLs "spotify" }}" target="_blank" class="btn btn-secondary">
+                        <i class="fab fa-spotify"></i> Ouvrir dans Spotify
+                    </a>
+                    {{ end }}
+                    
+                    {{ $isFavorite := index .Data "IsFavorite" }}
+                    <button class="btn-favorite {{ if $isFavorite }}active{{ end }}" data-id="{{ $artist.ID }}" data-type="artist" data-name="{{ $artist.Name }}" data-image="{{ if $artist.Images }}{{ (index $artist.Images 0).URL }}{{ end }}">
+                        <i class="{{ if $isFavorite }}fas{{ else }}far{{ end }} fa-heart"></i>
+                        {{ if $isFavorite }}Retirer des favoris{{ else }}Ajouter aux favoris{{ end }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        {{ $albums := index .Data "Albums" }}
+        <div class="artist-albums">
+            <h2>Albums</h2>
+            
+            <div class="albums-grid">
+                {{ range $albums.Items }}
+                <div class="album-card">
+                    {{ if .Images }}
+                    <div class="album-image">
+                        <img src="{{ (index .Images 0).URL }}" alt="{{ .Name }}">
+                    </div>
+                    {{ else }}
+                    <div class="album-image placeholder">
+                        <i class="fas fa-record-vinyl"></i>
+                    </div>
+                    {{ end }}
+                    <div class="album-info">
+                        <h3>{{ .Name }}</h3>
+                        <p>{{ .ReleaseDate }}</p>
+                    </div>
+                    <div class="album-actions">
+                        <a href="/album/{{ .ID }}" class="btn btn-small">Voir</a>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+        
+        {{ if eq .CurrentPage "album" }}
+        {{ $album := index .Data "Album" }}
+        <div class="details-header album-header">
+            {{ if $album.Images }}
+            <div class="details-image">
+                <img src="{{ (index $album.Images 0).URL }}" alt="{{ $album.Name }}">
+            </div>
+            {{ else }}
+            <div class="details-image placeholder">
+                <i class="fas fa-record-vinyl"></i>
+            </div>
+            {{ end }}
+            
+            <div class="details-info">
+                <h1>{{ $album.Name }}</h1>
+                
+                {{ if $album.Artists }}
+                <div class="artists">
+                    <h3>Artiste</h3>
+                    <p>
+                        {{ range $index, $artist := $album.Artists }}
+                        {{ if gt $index 0 }}, {{ end }}
+                        <a href="/artist/{{ $artist.ID }}">{{ $artist.Name }}</a>
+                        {{ end }}
+                    </p>
+                </div>
+                {{ end }}
+                
+                <div class="release-date">
+                    <h3>Date de sortie</h3>
+                    <p>{{ $album.ReleaseDate }}</p>
+                </div>
+                
+                <div class="track-count">
+                    <h3>Pistes</h3>
+                    <p>{{ $album.TotalTracks }}</p>
+                </div>
+                
+                <div class="external-links">
+                    {{ if index $album.ExternalURLs "spotify" }}
+                    <a href="{{ index $album.ExternalURLs "spotify" }}" target="_blank" class="btn btn-secondary">
+                        <i class="fab fa-spotify"></i> Ouvrir dans Spotify
+                    </a>
+                    {{ end }}
+                    
+                    {{ $isFavorite := index .Data "IsFavorite" }}
+                    <button class="btn-favorite {{ if $isFavorite }}active{{ end }}" data-id="{{ $album.ID }}" data-type="album" data-name="{{ $album.Name }}" data-image="{{ if $album.Images }}{{ (index $album.Images 0).URL }}{{ end }}">
+                        <i class="{{ if $isFavorite }}fas{{ else }}far{{ end }} fa-heart"></i>
+                        {{ if $isFavorite }}Retirer des favoris{{ else }}Ajouter aux favoris{{ end }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        {{ $tracks := index .Data "Tracks" }}
+        <div class="album-tracks">
+            <h2>Pistes</h2>
+            
+            <div class="tracks-list">
+                {{ range $index, $track := $tracks.Items }}
+                <div class="track-item">
+                    <div class="track-number">{{ add $index 1 }}</div>
+                    <div class="track-details">
+                        <h3>{{ $track.Name }}</h3>
+                        {{ if $track.Artists }}
+                        <p>
+                            {{ range $idx, $artist := $track.Artists }}
+                            {{ if gt $idx 0 }}, {{ end }}
+                            <a href="/artist/{{ $artist.ID }}">{{ $artist.Name }}</a>
+                            {{ end }}
+                        </p>
+                        {{ end }}
+                    </div>
+                    <div class="track-actions">
+                        <a href="/track/{{ $track.ID }}" class="btn btn-small">Voir</a>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+        
+        {{ if eq .CurrentPage "track" }}
+        {{ $track := index .Data "Track" }}
+        <div class="details-header track-header">
+            {{ if $track.Album.Images }}
+            <div class="details-image">
+                <img src="{{ (index $track.Album.Images 0).URL }}" alt="{{ $track.Name }}">
+            </div>
+            {{ else }}
+            <div class="details-image placeholder">
+                <i class="fas fa-music"></i>
+            </div>
+            {{ end }}
+            
+            <div class="details-info">
+                <h1>{{ $track.Name }}</h1>
+                
+                {{ if $track.Artists }}
+                <div class="artists">
+                    <h3>Artiste</h3>
+                    <p>
+                        {{ range $index, $artist := $track.Artists }}
+                        {{ if gt $index 0 }}, {{ end }}
+                        <a href="/artist/{{ $artist.ID }}">{{ $artist.Name }}</a>
+                        {{ end }}
+                    </p>
+                </div>
+                {{ end }}
+                
+                {{ if $track.Album }}
+                <div class="album">
+                    <h3>Album</h3>
+                    <p><a href="/album/{{ $track.Album.ID }}">{{ $track.Album.Name }}</a></p>
+                </div>
+                {{ end }}
+                
+                <div class="duration">
+                    <h3>Durée</h3>
+                    <p>{{ formatDuration $track.Duration }}</p>
+                </div>
+                
+                <div class="popularity">
+                    <h3>Popularité</h3>
+                    <div class="popularity-bar">
+                        <div class="popularity-fill" style="width: {{ $track.Popularity }}%;"></div>
+                    </div>
+                    <p>{{ $track.Popularity }}/100</p>
+                </div>
+                
+                <div class="external-links">
+                    {{ if index $track.ExternalURLs "spotify" }}
+                    <a href="{{ index $track.ExternalURLs "spotify" }}" target="_blank" class="btn btn-secondary">
+                        <i class="fab fa-spotify"></i> Ouvrir dans Spotify
+                    </a>
+                    {{ end }}
+                    
+                    {{ $isFavorite := index .Data "IsFavorite" }}
+                    <button class="btn-favorite {{ if $isFavorite }}active{{ end }}" data-id="{{ $track.ID }}" data-type="track" data-name="{{ $track.Name }}" data-image="{{ if $track.Album.Images }}{{ (index $track.Album.Images 0).URL }}{{ end }}">
+                        <i class="{{ if $isFavorite }}fas{{ else }}far{{ end }} fa-heart"></i>
+                        {{ if $isFavorite }}Retirer des favoris{{ else }}Ajouter aux favoris{{ end }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</section>
+{{ end }}
+
+{{ define "add" }}
+    {{ add . 1 }}
+{{ end }}
+
+{{ define "formatDuration" }}
+    {{ $minutes := div . 60000 }}
+    {{ $seconds := mod (div . 1000) 60 }}
+    {{ $seconds := printf "%02d" $seconds }}
+    {{ $minutes }}:{{ $seconds }}
+{{ end }}

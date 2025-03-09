@@ -1,0 +1,113 @@
+{{ define "content" }}
+<section class="hero">
+    <div class="container">
+        <h1>Découvrez Votre Prochaine Musique Préférée</h1>
+        <p>Explorez des artistes, des albums et des pistes du monde entier.</p>
+        
+        {{ if not .IsLoggedIn }}
+        <div class="cta-buttons">
+            <a href="/login" class="btn btn-primary">Connexion avec Spotify</a>
+        </div>
+        {{ else }}
+        <div class="search-container">
+            <form action="/search" method="GET">
+                <input type="text" name="q" placeholder="Rechercher des artistes, albums ou pistes..." required>
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </form>
+        </div>
+        {{ end }}
+    </div>
+</section>
+
+{{ if .IsLoggedIn }}
+<section class="browse-section">
+    <div class="container">
+        <h2>Parcourir par Genre</h2>
+        <div class="genres-grid">
+            {{ $genres := index .Data "Genres" }}
+            {{ if $genres }}
+                {{ $displayCount := 12 }}
+                {{ if lt (len $genres) 12 }}
+                    {{ $displayCount = len $genres }}
+                {{ end }}
+                
+                {{ range slice $genres 0 $displayCount }}
+                <a href="/category/{{ . }}" class="genre-card">
+                    <div class="genre-name">{{ . }}</div>
+                </a>
+                {{ end }}
+            {{ else }}
+                <div class="no-genres">
+                    <p>Les genres populaires apparaîtront ici. Essayez d'actualiser ou de rechercher de la musique directement.</p>
+                </div>
+                
+                <!-- Afficher quelques genres par défaut à la place -->
+                {{ $defaultGenres := slice "pop" "rock" "hip-hop" "jazz" "electronic" "classical" "country" "reggae" "blues" "metal" "indie" "folk" }}
+                {{ range $defaultGenres }}
+                <a href="/category/{{ . }}" class="genre-card">
+                    <div class="genre-name">{{ . }}</div>
+                </a>
+                {{ end }}
+            {{ end }}
+        </div>
+    </div>
+</section>
+
+<section class="recommendations">
+    <div class="container">
+        <h2>Recommandations pour Vous</h2>
+        <div class="tracks-grid">
+            {{ $tracks := index .Data "Tracks" }}
+            {{ if $tracks }}
+                {{ range $tracks }}
+                <div class="track-card">
+                    {{ if .Album.Images }}
+                    <div class="track-image">
+                        <img src="{{ (index .Album.Images 0).URL }}" alt="{{ .Name }}">
+                    </div>
+                    {{ end }}
+                    <div class="track-info">
+                        <h3>{{ .Name }}</h3>
+                        {{ if .Artists }}
+                        <p>{{ (index .Artists 0).Name }}</p>
+                        {{ end }}
+                    </div>
+                    <div class="track-actions">
+                        <a href="/track/{{ .ID }}" class="btn btn-small">Voir</a>
+                        <button class="btn-favorite" data-id="{{ .ID }}" data-type="track" data-name="{{ .Name }}" data-image="{{ if .Album.Images }}{{ (index .Album.Images 0).URL }}{{ end }}">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                {{ end }}
+            {{ else }}
+                <p>Commencez à explorer la musique en utilisant la barre de recherche ou en parcourant les genres !</p>
+            {{ end }}
+        </div>
+    </div>
+</section>
+{{ end }}
+
+<section class="features">
+    <div class="container">
+        <h2>Fonctionnalités</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-search"></i>
+                <h3>Recherche</h3>
+                <p>Trouvez des artistes, des albums et des pistes avec notre puissant système de recherche.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-filter"></i>
+                <h3>Filtrage</h3>
+                <p>Filtrez la musique par genre, popularité et année de sortie.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-heart"></i>
+                <h3>Favoris</h3>
+                <p>Enregistrez votre musique préférée pour un accès rapide.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}

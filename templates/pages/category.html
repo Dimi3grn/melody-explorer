@@ -1,0 +1,70 @@
+{{ define "content" }}
+<section class="category-page">
+    <div class="container">
+        <h1>Musique {{ index .Data "Genre" }}</h1>
+        
+        <div class="category-results">
+            {{ if and (index .Data "Results") (index .Data "Results").Tracks }}
+            <div class="results-section">
+                <h2>Meilleures pistes</h2>
+                <div class="results-grid tracks-grid">
+                    {{ $favorites := index .Data "Favorites" }}
+                    {{ range (index .Data "Results").Tracks.Items }}
+                    <div class="track-card">
+                        {{ if .Album.Images }}
+                        <div class="track-image">
+                            <img src="{{ (index .Album.Images 0).URL }}" alt="{{ .Name }}">
+                        </div>
+                        {{ else }}
+                        <div class="track-image placeholder">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        {{ end }}
+                        <div class="track-info">
+                            <h3>{{ .Name }}</h3>
+                            {{ if .Artists }}
+                            <p>Par <a href="/artist/{{ (index .Artists 0).ID }}">{{ (index .Artists 0).Name }}</a></p>
+                            {{ end }}
+                            {{ if .Album }}
+                            <p>De <a href="/album/{{ .Album.ID }}">{{ .Album.Name }}</a></p>
+                            {{ end }}
+                        </div>
+                        <div class="track-actions">
+                            <a href="/track/{{ .ID }}" class="btn btn-small">Voir</a>
+                            {{ $isFavorite := index $favorites (print "track:" .ID) }}
+                            <button class="btn-favorite {{ if $isFavorite }}active{{ end }}" data-id="{{ .ID }}" data-type="track" data-name="{{ .Name }}" data-image="{{ if .Album.Images }}{{ (index .Album.Images 0).URL }}{{ end }}">
+                                <i class="{{ if $isFavorite }}fas{{ else }}far{{ end }} fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+            
+            {{ if .Pagination }}
+            <div class="pagination">
+                {{ if .Pagination.HasPrev }}
+                <a href="/category/{{ index .Data "Genre" }}?limit={{ .Pagination.Limit }}&page={{ .Pagination.PrevPage }}" class="btn btn-small">Précédent</a>
+                {{ end }}
+                
+                <span class="pagination-info">Page {{ .Pagination.CurrentPage }} sur {{ .Pagination.TotalPages }}</span>
+                
+                {{ if .Pagination.HasNext }}
+                <a href="/category/{{ index .Data "Genre" }}?limit={{ .Pagination.Limit }}&page={{ .Pagination.NextPage }}" class="btn btn-small">Suivant</a>
+                {{ end }}
+            </div>
+            {{ end }}
+            {{ else }}
+            <div class="no-results">
+                <p>Aucune piste trouvée pour le genre : {{ index .Data "Genre" }}</p>
+            </div>
+            {{ end }}
+        </div>
+        
+        <div class="browse-more">
+            <h2>Explorer d'autres genres</h2>
+            <a href="/collection" class="btn btn-primary">Parcourir tous les genres</a>
+        </div>
+    </div>
+</section>
+{{ end }}

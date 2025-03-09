@@ -1,0 +1,177 @@
+/* Styles responsifs */
+
+/* Grands appareils (ordinateurs de bureau, moins de 1200px) */
+@media (max-width: 1199.98px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+/* Appareils moyens (tablettes, moins de 992px) */
+@media (max-width: 991.98px) {
+    .container {
+        max-width: 720px;
+    }
+    
+    .details-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .details-image {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .external-links {
+        justify-content: center;
+    }
+}
+
+/* Petits appareils (téléphones en mode paysage, moins de 768px) */
+@media (max-width: 767.98px) {
+    .container {
+        max-width: 540px;
+    }
+    
+    header .container {
+        flex-direction: column;
+    }
+    
+    .logo {
+        margin-bottom: 15px;
+    }
+    
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    nav ul li {
+        margin: 5px 10px;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .filter-container form {
+        grid-template-columns: 1fr;
+    }
+    
+    .features-grid,
+    .genres-grid,
+    .tracks-grid,
+    .artists-grid,
+    .albums-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    
+    .search-container form {
+        flex-direction: column;
+    }
+    
+    .search-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .track-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .track-number {
+        margin-bottom: 10px;
+    }
+    
+    .track-details {
+        padding: 0;
+        margin-bottom: 15px;
+    }
+}
+
+/* Très petits appareils (téléphones en mode portrait, moins de 576px) */
+@media (max-width: 575.98px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .features-grid,
+    .genres-grid,
+    .tracks-grid,
+    .artists-grid,
+    .albums-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .pagination {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .error-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .details-image {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+/* Bouton de menu mobile pour les écrans plus petits */
+@media (max-width: 767.98px) {
+    .mobile-menu-toggle {
+        display: block;
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    
+    .nav-menu {
+        display: none;
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .nav-menu.active {
+        display: block;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav ul li {
+        margin: 10px 0;
+    }
+}
+
+/* Barre de défilement personnalisée pour les navigateurs webkit */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--dark-gray);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}

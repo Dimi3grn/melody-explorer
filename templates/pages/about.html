@@ -1,0 +1,110 @@
+{{ define "content" }}
+<section class="about-page">
+    <div class="container">
+        <h1>À propos de MelodyExplorer</h1>
+        
+        <div class="about-section">
+            <h2>Aperçu du projet</h2>
+            <p>MelodyExplorer est une application web qui permet aux utilisateurs de découvrir et d'explorer la musique en utilisant l'API Spotify. Ce projet a été créé dans le cadre du devoir "Groupie Tracker", qui exigeait la création d'une application web consommant une API REST et implémentant diverses fonctionnalités.</p>
+        </div>
+        
+        <div class="about-section">
+            <h2>Fonctionnalités</h2>
+            <ul>
+                <li><strong>Système de recherche :</strong> Recherchez des artistes, des albums et des pistes.</li>
+                <li><strong>Système de filtrage :</strong> Filtrez la musique par type, genre, popularité et année de sortie.</li>
+                <li><strong>Pagination :</strong> Parcourez facilement de grandes collections de musique.</li>
+                <li><strong>Favoris :</strong> Enregistrez votre musique préférée pour un accès rapide.</li>
+            </ul>
+        </div>
+        
+        <div class="about-section">
+            <h2>Technologies utilisées</h2>
+            <ul>
+                <li><strong>Backend :</strong> Go (Golang)</li>
+                <li><strong>Frontend :</strong> HTML, CSS, JavaScript</li>
+                <li><strong>API :</strong> API Web Spotify</li>
+                <li><strong>Stockage de données :</strong> Fichiers JSON</li>
+            </ul>
+        </div>
+        
+        <div class="about-section">
+            <h2>FAQ du projet</h2>
+            
+            <div class="faq-item">
+                <h3>Comment avez-vous décomposé le projet ? Quelles ont été les phases clés ?</h3>
+                <div class="faq-answer">
+                    <p>J'ai décomposé le projet en ces phases clés :</p>
+                    <ol>
+                        <li><strong>Exploration de l'API :</strong> J'ai d'abord pris le temps de comprendre l'API Spotify, ses points de terminaison, son mécanisme d'authentification et ses structures de données. J'ai utilisé Postman pour tester différents points de terminaison et me familiariser avec les formats de réponse.</li>
+                        <li><strong>Planification de l'architecture :</strong> J'ai conçu l'architecture de l'application, en décidant de la structure des répertoires, de l'organisation des fichiers et de la façon dont les différents composants interagiraient entre eux.</li>
+                        <li><strong>Développement du backend :</strong> J'ai implémenté le backend Go, en commençant par le client Spotify pour gérer les interactions avec l'API, puis j'ai créé les gestionnaires, les middlewares et les routes.</li>
+                        <li><strong>Modèles frontend :</strong> J'ai conçu et implémenté les modèles HTML pour différentes pages, assurant une mise en page et une expérience utilisateur cohérentes.</li>
+                        <li><strong>Style et interactivité :</strong> J'ai ajouté des styles CSS et des fonctionnalités JavaScript pour rendre l'application visuellement attrayante et interactive.</li>
+                        <li><strong>Tests et améliorations :</strong> J'ai testé en profondeur toutes les fonctionnalités, corrigé les bugs et apporté des améliorations basées sur des considérations d'utilisabilité.</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Comment avez-vous géré la répartition des tâches pour le projet ?</h3>
+                <div class="faq-answer">
+                    <p>Comme il s'agissait d'un projet individuel, je n'ai pas eu à distribuer les tâches entre les membres de l'équipe. Cependant, j'ai organisé mon propre travail en :</p>
+                    <ul>
+                        <li>Créant un tableau de tâches avec des tâches et des priorités clairement définies</li>
+                        <li>Regroupant les tâches connexes pour maintenir l'attention sur des composants spécifiques</li>
+                        <li>Implémentant une fonctionnalité à la fois, en m'assurant qu'elle fonctionne correctement avant de passer à la suivante</li>
+                        <li>Révisant régulièrement mes progrès par rapport aux exigences du projet</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Comment avez-vous géré votre temps ? Avez-vous défini des priorités ?</h3>
+                <div class="faq-answer">
+                    <p>La gestion du temps était cruciale pour réussir ce projet. Mon approche comprenait :</p>
+                    <ul>
+                        <li>L'établissement d'un calendrier de projet avec des jalons clairs</li>
+                        <li>La priorisation des fonctionnalités essentielles par rapport aux améliorations esthétiques</li>
+                        <li>La définition d'objectifs quotidiens pour maintenir des progrès constants</li>
+                        <li>L'allocation de temps supplémentaire pour les fonctionnalités complexes et les problèmes potentiels</li>
+                        <li>L'évaluation régulière des progrès et l'ajustement des priorités si nécessaire</li>
+                    </ul>
+                    <p>J'ai priorisé les exigences fondamentales (recherche, filtrage, pagination, favoris) avant d'ajouter des fonctionnalités ou des améliorations supplémentaires.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Quelle stratégie avez-vous adoptée pour la documentation ?</h3>
+                <div class="faq-answer">
+                    <p>Ma stratégie de documentation comprenait :</p>
+                    <ul>
+                        <li>Le maintien de commentaires de code détaillés pour les fonctions et la logique complexe</li>
+                        <li>La création d'un fichier README complet avec des instructions d'installation et des explications de fonctionnalités</li>
+                        <li>La documentation des points de terminaison API et de leur utilisation</li>
+                        <li>La prise de notes sur les défis rencontrés et les solutions mises en œuvre</li>
+                        <li>La création de diagrammes pour visualiser l'architecture de l'application</li>
+                        <li>La documentation des points de terminaison de l'API Spotify utilisés et leur rôle dans l'application</li>
+                    </ul>
+                    <p>Cette approche a permis de s'assurer que le projet serait facile à comprendre et à maintenir, tant pour moi que pour toute autre personne qui pourrait travailler avec le code.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <h2>Informations sur l'API</h2>
+            <p>Ce projet utilise les points de terminaison suivants de l'API Spotify :</p>
+            <ul>
+                <li><code>/search</code> : Rechercher des artistes, des albums et des pistes</li>
+                <li><code>/artists/{id}</code> : Obtenir des informations détaillées sur un artiste</li>
+                <li><code>/artists/{id}/albums</code> : Obtenir les albums d'un artiste</li>
+                <li><code>/albums/{id}</code> : Obtenir des informations détaillées sur un album</li>
+                <li><code>/albums/{id}/tracks</code> : Obtenir les pistes d'un album</li>
+                <li><code>/tracks/{id}</code> : Obtenir des informations détaillées sur une piste</li>
+                <li><code>/recommendations/available-genre-seeds</code> : Obtenir les genres disponibles</li>
+                <li><code>/recommendations</code> : Obtenir des recommandations de pistes</li>
+            </ul>
+        </div>
+    </div>
+</section>
+{{ end }}

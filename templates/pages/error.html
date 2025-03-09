@@ -1,0 +1,20 @@
+{{ define "content" }}
+<section class="error-page">
+    <div class="container">
+        <div class="error-content">
+            <h1>Oups ! Quelque chose s'est mal passé</h1>
+            
+            {{ if .Error }}
+            <p>{{ .Error }}</p>
+            {{ else }}
+            <p>La page que vous recherchez est introuvable.</p>
+            {{ end }}
+            
+            <div class="error-actions">
+                <a href="/" class="btn btn-primary">Aller à l'accueil</a>
+                <a href="/collection" class="btn btn-secondary">Parcourir la collection</a>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}

@@ -1,0 +1,114 @@
+{{ define "content" }}
+<section class="favorites-page">
+    <div class="container">
+        <h1>Mes Favoris</h1>
+        
+        {{ $artists := index .Data "Artists" }}
+        {{ if $artists }}
+        <div class="favorites-section">
+            <h2>Artistes</h2>
+            <div class="favorites-grid artists-grid">
+                {{ range $artists }}
+                <div class="artist-card">
+                    {{ if .ImageURL }}
+                    <div class="artist-image">
+                        <img src="{{ .ImageURL }}" alt="{{ .Name }}">
+                    </div>
+                    {{ else }}
+                    <div class="artist-image placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    {{ end }}
+                    <div class="artist-info">
+                        <h3>{{ .Name }}</h3>
+                        <p>Ajouté le {{ formatDate .AddedAt }}</p>
+                    </div>
+                    <div class="artist-actions">
+                        <a href="/artist/{{ .ID }}" class="btn btn-small">Voir</a>
+                        <button class="btn-remove-favorite" data-id="{{ .ID }}" data-type="{{ .Type }}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+        
+        {{ $albums := index .Data "Albums" }}
+        {{ if $albums }}
+        <div class="favorites-section">
+            <h2>Albums</h2>
+            <div class="favorites-grid albums-grid">
+                {{ range $albums }}
+                <div class="album-card">
+                    {{ if .ImageURL }}
+                    <div class="album-image">
+                        <img src="{{ .ImageURL }}" alt="{{ .Name }}">
+                    </div>
+                    {{ else }}
+                    <div class="album-image placeholder">
+                        <i class="fas fa-record-vinyl"></i>
+                    </div>
+                    {{ end }}
+                    <div class="album-info">
+                        <h3>{{ .Name }}</h3>
+                        <p>Ajouté le {{ formatDate .AddedAt }}</p>
+                    </div>
+                    <div class="album-actions">
+                        <a href="/album/{{ .ID }}" class="btn btn-small">Voir</a>
+                        <button class="btn-remove-favorite" data-id="{{ .ID }}" data-type="{{ .Type }}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+        
+        {{ $tracks := index .Data "Tracks" }}
+        {{ if $tracks }}
+        <div class="favorites-section">
+            <h2>Pistes</h2>
+            <div class="favorites-grid tracks-grid">
+                {{ range $tracks }}
+                <div class="track-card">
+                    {{ if .ImageURL }}
+                    <div class="track-image">
+                        <img src="{{ .ImageURL }}" alt="{{ .Name }}">
+                    </div>
+                    {{ else }}
+                    <div class="track-image placeholder">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    {{ end }}
+                    <div class="track-info">
+                        <h3>{{ .Name }}</h3>
+                        <p>Ajouté le {{ formatDate .AddedAt }}</p>
+                    </div>
+                    <div class="track-actions">
+                        <a href="/track/{{ .ID }}" class="btn btn-small">Voir</a>
+                        <button class="btn-remove-favorite" data-id="{{ .ID }}" data-type="{{ .Type }}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+        
+        {{ if not (or $artists $albums $tracks) }}
+        <div class="no-favorites">
+            <p>Vous n'avez pas encore ajouté de favoris.</p>
+            <a href="/collection" class="btn btn-primary">Parcourir la collection</a>
+        </div>
+        {{ end }}
+    </div>
+</section>
+{{ end }}
+
+{{ define "formatDate" }}
+{{ .Format "January 2, 2006" }}
+{{ end }}

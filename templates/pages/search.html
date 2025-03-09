@@ -1,0 +1,156 @@
+{{ define "content" }}
+<section class="search-page">
+    <div class="container">
+        <h1>Rechercher de la Musique</h1>
+        
+        <div class="search-container">
+            <form action="/search" method="GET">
+                <input type="text" name="q" placeholder="Recherchez des artistes, albums ou morceaux..." value="{{ .Query }}" required>
+                <div class="search-options">
+                    <label>
+                        <input type="checkbox" name="type" value="artist" checked> Artistes
+                    </label>
+                    <label>
+                        <input type="checkbox" name="type" value="album" checked> Albums
+                    </label>
+                    <label>
+                        <input type="checkbox" name="type" value="track" checked> Morceaux
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </form>
+        </div>
+        
+        {{ if .Query }}
+        <div class="search-results">
+            <h2>Résultats pour "{{ .Query }}"</h2>
+            
+            {{ $results := index .Data "Results" }}
+            {{ $types := .Data.Types }}
+            
+            
+            <!-- Section Artistes -->
+            <div class="results-section">
+                <h3>Artistes ({{ if $results.Artists }}{{ len $results.Artists.Items }}{{ else }}0{{ end }})</h3>
+                {{ if $results.Artists }}
+                    {{ if gt (len $results.Artists.Items) 0 }}
+                    <div class="results-grid artists-grid">
+                        {{ $favorites := index .Data "Favorites" }}
+                        {{ range $results.Artists.Items }}
+                        <div class="artist-card">
+                            {{ if .Images }}
+                            <div class="artist-image">
+                                <img src="{{ (index .Images 0).URL }}" alt="{{ .Name }}">
+                            </div>
+                            {{ else }}
+                            <div class="artist-image placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            {{ end }}
+                            <div class="artist-info">
+                                <h4>{{ .Name }}</h4>
+                                <p>{{ .Followers.Total }} abonnés</p>
+                            </div>
+                            <div class="artist-actions">
+                                <a href="/artist/{{ .ID }}" class="btn btn-small">Voir</a>
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                    {{ else }}
+                    <p>Aucun artiste trouvé.</p>
+                    {{ end }}
+                {{ else }}
+                <p>Pas de résultats d'artistes.</p>
+                {{ end }}
+            </div>
+            
+            <!-- Section Albums -->
+            <div class="results-section">
+                <h3>Albums ({{ if $results.Albums }}{{ len $results.Albums.Items }}{{ else }}0{{ end }})</h3>
+                {{ if $results.Albums }}
+                    {{ if gt (len $results.Albums.Items) 0 }}
+                    <div class="results-grid albums-grid">
+                        {{ range $results.Albums.Items }}
+                        <div class="album-card">
+                            {{ if .Images }}
+                            <div class="album-image">
+                                <img src="{{ (index .Images 0).URL }}" alt="{{ .Name }}">
+                            </div>
+                            {{ else }}
+                            <div class="album-image placeholder">
+                                <i class="fas fa-record-vinyl"></i>
+                            </div>
+                            {{ end }}
+                            <div class="album-info">
+                                <h4>{{ .Name }}</h4>
+                                {{ if .Artists }}
+                                <p>Par <a href="/artist/{{ (index .Artists 0).ID }}">{{ (index .Artists 0).Name }}</a></p>
+                                {{ end }}
+                            </div>
+                            <div class="album-actions">
+                                <a href="/album/{{ .ID }}" class="btn btn-small">Voir</a>
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                    {{ else }}
+                    <p>Aucun album trouvé.</p>
+                    {{ end }}
+                {{ else }}
+                <p>Pas de résultats d'albums.</p>
+                {{ end }}
+            </div>
+            
+            <!-- Section Morceaux -->
+            <div class="results-section">
+                <h3>Morceaux ({{ if $results.Tracks }}{{ len $results.Tracks.Items }}{{ else }}0{{ end }})</h3>
+                {{ if $results.Tracks }}
+                    {{ if gt (len $results.Tracks.Items) 0 }}
+                    <div class="results-grid tracks-grid">
+                        {{ range $results.Tracks.Items }}
+                        <div class="track-card">
+                            {{ if .Album.Images }}
+                            <div class="track-image">
+                                <img src="{{ (index .Album.Images 0).URL }}" alt="{{ .Name }}">
+                            </div>
+                            {{ else }}
+                            <div class="track-image placeholder">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            {{ end }}
+                            <div class="track-info">
+                                <h4>{{ .Name }}</h4>
+                                {{ if .Artists }}
+                                <p>Par <a href="/artist/{{ (index .Artists 0).ID }}">{{ (index .Artists 0).Name }}</a></p>
+                                {{ end }}
+                            </div>
+                            <div class="track-actions">
+                                <a href="/track/{{ .ID }}" class="btn btn-small">Voir</a>
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                    {{ else }}
+                    <p>Aucun morceau trouvé.</p>
+                    {{ end }}
+                {{ else }}
+                <p>Pas de résultats de morceaux.</p>
+                {{ end }}
+            </div>
+            
+            <!-- Aucun Résultat -->
+            {{ if not (or 
+                (and $results.Artists (gt (len $results.Artists.Items) 0))
+                (and $results.Albums (gt (len $results.Albums.Items) 0))
+                (and $results.Tracks (gt (len $results.Tracks.Items) 0))
+            ) }}
+            <div class="no-results">
+                <p>Aucun résultat trouvé pour "{{ .Query }}"</p>
+            </div>
+            {{ end }}
+        </div>
+        {{ end }}
+    </div>
+</section>
+{{ end }}

@@ -9,7 +9,9 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/yourusername/melody-explorer/internal/api"
+	//yourusername, car j'ai vraiment galéré a implementer mes propre packages et j'ai plus ou moins fait un guide que chat gpt ma donné, 
+	//apres enfin avoir reussi a le faire marcher, j'ai decidé de pas changer pour pas le refaire bugger
+	"github.com/yourusername/melody-explorer/internal/api" 
 )
 
 func main() {

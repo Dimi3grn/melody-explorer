@@ -30,7 +30,7 @@ Le thème du projet est la découverte musicale - permettre aux utilisateurs d'e
 ### Installation
 1. Clonez ce dépôt
    ```
-   git clone https://github.com/votre-nom/melody-explorer.git
+   git clone https://github.com/Dimi3grn/melody-explorer.git
    cd melody-explorer
    ```
 
@@ -39,7 +39,7 @@ Le thème du projet est la découverte musicale - permettre aux utilisateurs d'e
    SPOTIFY_CLIENT_ID=votre_client_id
    SPOTIFY_CLIENT_SECRET=votre_client_secret
    REDIRECT_URI=http://localhost:8080/callback
-   PORT=8085
+   PORT=8080
    ```
 
 3. Installez les dépendances
@@ -53,7 +53,7 @@ Le thème du projet est la découverte musicale - permettre aux utilisateurs d'e
    go run ./cmd/server/main.go
    ```
 
-2. Ouvrez votre navigateur et accédez à `http://localhost:8080`
+2. Ouvrez votre navigateur et accédez à `http://localhost:8085`
 
 ## Routes Implémentées
 

@@ -1,0 +1,168 @@
+{{ define "content" }}
+<section class="details-page recommendation-page">
+    <div class="container">
+        <h1>Ma Recommandation Personnelle: Tame Impala</h1>
+        
+        <div class="recommendation-intro">
+            <p>Tame Impala est un projet musical australien fondé par Kevin Parker, qui compose, joue, produit et enregistre la plupart de la musique. Avec un style mélangeant rock psychédélique, pop et électronique, Tame Impala a conquis le monde avec des albums comme "Currents" et "The Slow Rush".</p>
+        </div>
+        
+        {{ if not .IsLoggedIn }}
+        <div class="login-prompt">
+            <p>Connectez-vous avec Spotify pour voir plus d'informations sur Tame Impala et découvrir sa musique.</p>
+            <a href="/login" class="btn btn-primary">Connexion avec Spotify</a>
+        </div>
+        {{ else }}
+        
+        {{ $artist := index .Data "Artist" }}
+        <div class="details-header artist-header">
+            {{ if $artist.Images }}
+            <div class="details-image">
+                <img src="{{ (index $artist.Images 0).URL }}" alt="{{ $artist.Name }}">
+            </div>
+            {{ else }}
+            <div class="details-image placeholder">
+                <i class="fas fa-user"></i>
+            </div>
+            {{ end }}
+            
+            <div class="details-info">
+                <h2>{{ $artist.Name }}</h2>
+                
+                {{ if $artist.Genres }}
+                <div class="genres">
+                    <h3>Genres</h3>
+                    <p>
+                        {{ range $index, $genre := $artist.Genres }}
+                        {{ if gt $index 0 }}, {{ end }}
+                        <a href="/category/{{ $genre }}">{{ $genre }}</a>
+                        {{ end }}
+                    </p>
+                </div>
+                {{ end }}
+                
+                <div class="followers">
+                    <h3>Abonnés</h3>
+                    <p>{{ $artist.Followers.Total }}</p>
+                </div>
+                
+                <div class="popularity">
+                    <h3>Popularité</h3>
+                    <div class="popularity-bar">
+                        <div class="popularity-fill" style="width: {{ $artist.Popularity }}%;"></div>
+                    </div>
+                    <p>{{ $artist.Popularity }}/100</p>
+                </div>
+                
+                <div class="why-recommend">
+                    <h3>Pourquoi j'aime Tame Impala</h3>
+                    <p>L'univers musical de Tame Impala est un mélange parfait de nostalgie et d'innovation. Kevin Parker crée des paysages sonores immersifs qui combinent des mélodies accrocheuses avec des textures sonores complexes. Chaque album est une expérience complète, une évolution artistique qui mérite d'être découverte.</p>
+                </div>
+                
+                <div class="external-links">
+                    {{ if index $artist.ExternalURLs "spotify" }}
+                    <a href="{{ index $artist.ExternalURLs "spotify" }}" target="_blank" class="btn btn-secondary">
+                        <i class="fab fa-spotify"></i> Ouvrir dans Spotify
+                    </a>
+                    {{ end }}
+                    
+                    {{ $isFavorite := index .Data "IsFavorite" }}
+                    <button class="btn-favorite {{ if $isFavorite }}active{{ end }}" data-id="{{ $artist.ID }}" data-type="artist" data-name="{{ $artist.Name }}" data-image="{{ if $artist.Images }}{{ (index $artist.Images 0).URL }}{{ end }}">
+                        <i class="{{ if $isFavorite }}fas{{ else }}far{{ end }} fa-heart"></i>
+                        {{ if $isFavorite }}Retirer des favoris{{ else }}Ajouter aux favoris{{ end }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="recommendation-section">
+            <h2>Albums recommandés</h2>
+            <div class="albums-grid">
+                {{ $albums := index .Data "Albums" }}
+                {{ range $albums }}
+                <div class="album-card">
+                    {{ if .Images }}
+                    <div class="album-image">
+                        <img src="{{ (index .Images 0).URL }}" alt="{{ .Name }}">
+                    </div>
+                    {{ else }}
+                    <div class="album-image placeholder">
+                        <i class="fas fa-record-vinyl"></i>
+                    </div>
+                    {{ end }}
+                    <div class="album-info">
+                        <h3>{{ .Name }}</h3>
+                        <p>{{ .ReleaseDate }}</p>
+                    </div>
+                    <div class="album-actions">
+                        <a href="/album/{{ .ID }}" class="btn btn-small">Voir</a>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        
+        <div class="recommendation-section">
+            <h2>Chansons populaires</h2>
+            <div class="tracks-list">
+                {{ $topTracks := index .Data "TopTracks" }}
+                {{ range $index, $track := $topTracks }}
+                <div class="track-item">
+                    <div class="track-number">{{ add $index 1 }}</div>
+                    <div class="track-details">
+                        <h3>{{ $track.Name }}</h3>
+                        {{ if $track.Album }}
+                        <p>De l'album <a href="/album/{{ $track.Album.ID }}">{{ $track.Album.Name }}</a></p>
+                        {{ end }}
+                    </div>
+                    <div class="track-actions">
+                        <a href="/track/{{ $track.ID }}" class="btn btn-small">Voir</a>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        
+        <div class="recommendation-section">
+            <h2>Mon avis personnel</h2>
+            <div class="personal-review">
+                <p>"Currents" est probablement l'album qui a changé ma vision de la musique moderne. La façon dont Kevin Parker mélange des sons rétro avec des productions contemporaines crée quelque chose de véritablement unique. Des morceaux comme "Let It Happen" et "The Less I Know The Better" montrent sa capacité à créer des chansons à la fois expérimentales et accessibles.</p>
+                <p>Si vous n'avez jamais écouté Tame Impala, je vous recommande de commencer par l'album "Currents", puis d'explorer le reste de sa discographie qui ne cesse d'évoluer et de surprendre.</p>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</section>
+
+<style>
+.recommendation-intro, 
+.personal-review {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.why-recommend {
+    margin-top: 20px;
+}
+
+.login-prompt {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 10px;
+    margin: 40px 0;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.login-prompt p {
+    margin-bottom: 20px;
+}
+
+.recommendation-section {
+    margin-bottom: 50px;
+}
+</style>
+{{ end }}

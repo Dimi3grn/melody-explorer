@@ -1162,3 +1162,64 @@ func (s *Server) ErrorHandler(w http.ResponseWriter, r *http.Request) {
 
 	s.renderTemplate(w, "error.html", data)
 }
+
+// RecommendationHandler gère la page de recommandation personnelle (Tame Impala)
+func (s *Server) RecommendationHandler(w http.ResponseWriter, r *http.Request) {
+	// Vérifier si l'utilisateur est connecté
+	isLoggedIn := s.SpotifyAuth.IsTokenValid()
+
+	// ID Spotify de Tame Impala
+	tameImpalaID := "5INjqkS1o8h1imAzPqGZBb"
+
+	// Initialiser les données avec des valeurs par défaut
+	var artist *spotify.Artist
+	var albums []spotify.Album
+	var topTracks []spotify.Track
+
+	if isLoggedIn {
+		// Récupérer les informations sur Tame Impala depuis Spotify
+		var err error
+		artist, err = s.SpotifyClient.GetArtist(tameImpalaID)
+		if err != nil {
+			log.Printf("Erreur lors de la récupération des informations de l'artiste: %v", err)
+		}
+
+		// Récupérer les albums de Tame Impala
+		albumResults, err := s.SpotifyClient.GetArtistAlbums(tameImpalaID, 10, 0)
+		if err != nil {
+			log.Printf("Erreur lors de la récupération des albums: %v", err)
+		} else if albumResults != nil {
+			albums = albumResults.Items
+		}
+
+		// Récupérer les pistes populaires
+		trackResults, err := s.SpotifyClient.Search("artist:Tame Impala", []string{"track"}, 10, 0)
+		if err != nil {
+			log.Printf("Erreur lors de la récupération des pistes: %v", err)
+		} else if trackResults != nil && trackResults.Tracks != nil {
+			topTracks = trackResults.Tracks.Items
+		}
+	}
+
+	// Vérifier si Tame Impala est dans les favoris
+	isFavorite := false
+	if isLoggedIn {
+		isFavorite = s.FavoritesStorage.Contains(tameImpalaID, models.FavoriteTypeArtist)
+	}
+
+	// Préparer les données de la page
+	data := PageData{
+		Title:       "Ma Recommandation: Tame Impala - MelodyExplorer",
+		IsLoggedIn:  isLoggedIn,
+		CurrentPage: "recommandation",
+		Data: map[string]interface{}{
+			"Artist":     artist,
+			"Albums":     albums,
+			"TopTracks":  topTracks,
+			"IsFavorite": isFavorite,
+		},
+	}
+
+	// Rendre le template
+	s.renderTemplate(w, "recommandation.html", data)
+}

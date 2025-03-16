@@ -24,6 +24,7 @@
                     <li><a href="/search" class="{{ if eq .CurrentPage "search" }}active{{ end }}">Recherche</a></li>
                     {{ if .IsLoggedIn }}
                     <li><a href="/favorites" class="{{ if eq .CurrentPage "favorites" }}active{{ end }}">Favoris</a></li>
+                    <li><a href="/recommandation" class="{{ if eq .CurrentPage "recommandation" }}active{{ end }}">Ma Recommandation</a></li>
                     <li><a href="/logout">Déconnexion</a></li>
                     {{ else }}
                     <li><a href="/login">Connexion</a></li>

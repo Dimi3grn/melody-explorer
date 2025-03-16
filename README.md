@@ -25,7 +25,7 @@ Le thème du projet est la découverte musicale - permettre aux utilisateurs d'e
 1. Créez un compte sur [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/)
 2. Créez une nouvelle application
 3. Notez votre Client ID et Client Secret
-4. Ajoutez `http://localhost:8080/callback` comme URI de redirection
+4. Ajoutez `http://localhost:8085/callback` comme URI de redirection
 
 ### Installation
 1. Clonez ce dépôt
@@ -39,7 +39,7 @@ Le thème du projet est la découverte musicale - permettre aux utilisateurs d'e
    SPOTIFY_CLIENT_ID=votre_client_id
    SPOTIFY_CLIENT_SECRET=votre_client_secret
    REDIRECT_URI=http://localhost:8080/callback
-   PORT=8080
+   PORT=8085
    ```
 
 3. Installez les dépendances

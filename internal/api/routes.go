@@ -28,6 +28,7 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/favorites", s.FavoritesHandler).Methods("GET")
 	s.Router.HandleFunc("/category/{genre}", s.CategoryHandler).Methods("GET")
 	s.Router.HandleFunc("/about", s.AboutHandler).Methods("GET")
+	s.Router.HandleFunc("/recommandation", s.RecommendationHandler).Methods("GET")
 
 	// Routes API
 	s.Router.HandleFunc("/api/favorites/add", s.AddFavoriteHandler).Methods("POST")

@@ -14,6 +14,7 @@ Le thème du projet est la découverte musicale - permettre aux utilisateurs d'e
 - **Système de Favoris** : Ajout et suppression d'éléments à une liste de favoris persistante
 - **Détails** : Affichage des informations détaillées sur les artistes, albums et morceaux
 - **Catégories** : Exploration de la musique par genres
+- **Recommandation Personnelle** : Page dédiée présentant mon artiste recommandé, avec avis personnel et sélection de contenus
 
 ## Installation et Lancement
 
@@ -30,11 +31,19 @@ Le thème du projet est la découverte musicale - permettre aux utilisateurs d'e
 ### Installation
 1. Clonez ce dépôt
    ```
-   git clone https://github.com/Dimi3grn/melody-explorer.git
+   git clone https://github.com/votre-nom/melody-explorer.git
    cd melody-explorer
    ```
 
-2. Installez les dépendances
+2. Créez un fichier `.env` à la racine du projet avec les informations suivantes :
+   ```
+   SPOTIFY_CLIENT_ID=votre_client_id
+   SPOTIFY_CLIENT_SECRET=votre_client_secret
+   REDIRECT_URI=http://localhost:8080/callback
+   PORT=8085
+   ```
+
+3. Installez les dépendances
    ```
    go mod download
    ```
@@ -45,7 +54,7 @@ Le thème du projet est la découverte musicale - permettre aux utilisateurs d'e
    go run ./cmd/server/main.go
    ```
 
-2. Ouvrez votre navigateur et accédez à `http://localhost:8085`
+2. Ouvrez votre navigateur et accédez à `http://localhost:8080`
 
 ## Routes Implémentées
 
@@ -59,6 +68,7 @@ Le thème du projet est la découverte musicale - permettre aux utilisateurs d'e
 - `GET /favorites` - Gestion des favoris
 - `GET /category/{genre}` - Exploration par genre
 - `GET /about` - À propos du projet
+- `GET /recommendation` - Artiste personnellement recommandé
 
 ### Authentification
 - `GET /login` - Connexion via Spotify
@@ -172,6 +182,14 @@ Pour me documenter efficacement, j'ai :
 5. **Participé à des forums et communautés**
    - Stack Overflow pour des questions spécifiques
    - Communauté Go pour des conseils sur les meilleures pratiques
+
+### Choix techniques spécifiques
+
+**Système de favoris via JavaScript**  
+J'ai délibérément choisi d'implémenter le système de favoris principalement via JavaScript plutôt que de reposer entièrement sur Golang. Cette approche offre une expérience utilisateur plus fluide et réactive, permettant d'ajouter ou supprimer des favoris sans rechargement de page. Le backend Golang s'occupe de la persistance des données, mais l'interaction immédiate est gérée côté client pour une meilleure sensation d'utilisation.
+
+**Fonctionnalité bonus : Recommandation personnelle**  
+Au-delà des exigences initiales du projet, j'ai ajouté une page de recommandation personnelle qui présente un artiste que j'apprécie particulièrement. Cette page offre une présentation plus subjective et personnalisée, incluant ma propre critique et des suggestions d'écoute. Cette fonctionnalité démontre comment l'application pourrait évoluer vers une plateforme plus sociale et personnalisée.
 
 ## Conclusion
 

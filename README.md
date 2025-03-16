@@ -34,15 +34,7 @@ Le thème du projet est la découverte musicale - permettre aux utilisateurs d'e
    cd melody-explorer
    ```
 
-2. Créez un fichier `.env` à la racine du projet avec les informations suivantes :
-   ```
-   SPOTIFY_CLIENT_ID=votre_client_id
-   SPOTIFY_CLIENT_SECRET=votre_client_secret
-   REDIRECT_URI=http://localhost:8080/callback
-   PORT=8080
-   ```
-
-3. Installez les dépendances
+2. Installez les dépendances
    ```
    go mod download
    ```
